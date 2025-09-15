@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LightVLA - Presentation</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      overflow: hidden;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Presentation Container */
+    .presentation-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .presentation-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Slides */
+    .slide {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      scroll-snap-align: start;
+      padding: 60px;
+      position: relative;
+      background: white;
+    }
+
+    /* Slide Backgrounds */
+    .slide.title-slide {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+      color: white;
+    }
+
+    .slide.gradient-bg {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+    }
+
+    .slide.dark-bg {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: white;
+    }
+
+    /* Typography */
+    .main-title {
+      font-size: 4rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .subtitle {
+      font-size: 2rem;
+      font-weight: 300;
+      text-align: center;
+      opacity: 0.9;
+      margin-bottom: 3rem;
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      font-weight: 600;
+      margin-bottom: 3rem;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .authors {
+      font-size: 1.3rem;
+      line-height: 2;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .affiliations {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* Content Boxes */
+    .content-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      max-width: 1200px;
+      width: 100%;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .dark-bg .content-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: white;
+    }
+
+    /* Abstract Content */
+    .abstract-text {
+      font-size: 1.4rem;
+      line-height: 1.8;
+      text-align: justify;
+      color: #333;
+    }
+
+    .highlight-stat {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.3rem 0.8rem;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 0 0.2rem;
+    }
+
+    /* Framework Image */
+    .framework-img {
+      max-width: 90%;
+      max-height: 70vh;
+      object-fit: contain;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease-out;
+    }
+
+    /* Results */
+    .results-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    .results-highlight {
+      background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+      color: white;
+      padding: 1.5rem 2.5rem;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 5px 20px rgba(46, 204, 113, 0.3);
+    }
+
+    .results-img {
+      max-width: 60%;
+      max-height: 50vh;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      object-fit: contain;
+    }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      width: 100%;
+      max-width: 1600px;
+      padding: 2rem;
+    }
+
+    .video-grid.two-col {
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 1000px;
+    }
+
+    .video-item {
+      background: white;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .video-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .video-item video {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .video-caption {
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+      line-height: 1.3;
+      min-height: 2.5rem;
+    }
+
+    .task-label {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #3273dc;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    /* Failure Cases */
+    .failure-section-title {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    .failure-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      width: 100%;
+      max-width: 1600px;
+      padding: 0 2rem;
+    }
+
+    .failure-item {
+      background: white;
+      border: 2px solid #ff6b6b;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 5px 20px rgba(255, 107, 107, 0.15);
+    }
+
+    .failure-item h4 {
+      color: #ff6b6b;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .failure-item video {
+      width: 100%;
+      border-radius: 8px;
+      max-height: 200px;
+      object-fit: cover;
+    }
+
+    .failure-caption {
+      color: #dc3545;
+      font-style: italic;
+      text-align: center;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      line-height: 1.2;
+    }
+
+    /* Play Controls */
+    .play-controls {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 0.5rem;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.3);
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .play-btn {
+        padding: 0.4rem 0.8rem;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .play-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        background: linear-gradient(135deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 1) 100%);
+    }
+
+    /* Page Indicator */
+    .page-indicator {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      color: #2c3e50;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+
+    /* Autoplay Indicator */
+    .autoplay-indicator {
+      position: fixed;
+      top: 70px;
+      right: 30px;
+      background: rgba(46, 204, 113, 0.9);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: none;
+      animation: pulse 2s infinite;
+    }
+
+    .autoplay-indicator.active {
+      display: block;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Slide Timer */
+    .slide-timer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #27ae60 0%, #2ecc71 100%);
+      transition: width linear;
+      z-index: 1002;
+      width: 0;
+    }
+
+    /* Links */
+    .button-links {
+      display: flex;
+      gap: 2rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .link-button {
+      padding: 1rem 2rem;
+      background: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .link-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+      background: #667eea;
+      color: white;
+    }
+
+    /* BibTeX */
+    .bibtex-box {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 900px;
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .bibtex-code {
+      background: white;
+      border: 2px solid #dee2e6;
+      border-radius: 10px;
+      padding: 1.5rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      overflow-x: auto;
+      color: #333;
+    }
+
+    /* Progress Bar */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s ease;
+      z-index: 1001;
+    }
+
+    /* Keyboard Hint */
+    .keyboard-hint {
+      position: fixed;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      z-index: 999;
+      animation: fadeIn 1s ease-out;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 1400px) {
+      .failure-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1000px;
+      }
+      
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 1000px;
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .failure-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+      }
+      
+      .video-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+      }
+      
+      .results-img {
+        max-width: 90%;
+      }
+      
+      .main-title {
+        font-size: 2.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1.5rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+  
+  <!-- Slide Timer -->
+  <div class="slide-timer" id="slideTimer"></div>
+  
+  <!-- Page Indicator -->
+  <div class="page-indicator" id="pageIndicator">1 / 11</div>
+  
+  <!-- Autoplay Indicator -->
+  <div class="autoplay-indicator" id="autoplayIndicator">▶ 自动播放中</div>
+  
+  <!-- Main Presentation Container -->
+  <div class="presentation-container" id="presentation">
+    
+    <!-- Slide 1: Title -->
+    <div class="slide title-slide">
+      <div class="main-title">
+        ⚡ LightVLA
+      </div>
+      <div class="subtitle">
+        The Better You Learn, The Smarter You Prune:<br>
+        Towards Efficient Vision-language-action Models<br>
+        via Differentiable Token Pruning
+      </div>
+      <div class="authors">
+        <strong>Titong Jiang</strong>¹²*, <strong>Xuefeng Jiang</strong>¹³*, <strong>Yuan Ma</strong>¹†,<br>
+        Xin Wen¹, Bailin Li¹, Kun Zhan¹, Peng Jia¹,<br>
+        Yahui Liu², Sheng Sun³, <strong>Xianpeng Lang</strong>¹‡
+      </div>
+      <div class="affiliations">
+        ¹LiAuto Inc. &nbsp; ²Tsinghua University &nbsp; ³Chinese Academy of Sciences<br>
+        <small>*Equal Contribution &nbsp; †Project Lead &nbsp; ‡Corresponding Author</small>
+      </div>
+      <div class="button-links">
+        <a href="#" class="link-button">
+          <span class="icon-text">
+            <span class="icon">
+              <i class="ai ai-arxiv"></i>
+            </span>
+            <span>arXiv (coming soon)</span>
+          </span>
+        </a>
+        
+        <a href="#" class="link-button">
+          🤗 Models (coming soon)
+        </a>
+        <a href="#" class="link-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          Code (coming soon)
+        </a>
+      </div>
+    </div>
+
+    <!-- Slide 2: Abstract -->
+    <!-- <div class="slide gradient-bg">
+      <div class="section-title">📝 Abstract</div>
+      <div class="content-box">
+        <p class="abstract-text">
+          We present <strong>LightVLA</strong>, a simple yet effective differentiable token pruning framework for vision-language-action (VLA) models.
+          <br><br>
+          While VLA models have shown impressive capability in executing real-world robotic tasks, their deployment on resource-constrained platforms is often bottlenecked by the heavy attention-based computation over large sets of visual tokens.
+          <br><br>
+          LightVLA addresses this challenge through <em>adaptive, performance-driven pruning</em> of visual tokens: it generates dynamic queries to evaluate visual token importance, and adopts Gumbel softmax to enable differentiable token selection.
+          <br><br>
+          <strong>Key Achievement:</strong> 
+          <span class="highlight-stat">59.1% ↓ FLOPs</span>
+          <span class="highlight-stat">38.2% ↓ Latency</span>
+          <span class="highlight-stat">2.9% ↑ Success Rate</span>
+        </p>
+      </div>
+    </div> -->
+
+    <!-- Slide 3: Framework -->
+    <!-- <div class="slide">
+      <div class="section-title">🔧 Our Approach</div>
+      <img src="static/images/framework.jpg" alt="LightVLA Framework" class="framework-img">
+      <div style="margin-top: 2rem; max-width: 1000px; text-align: center; font-size: 1.2rem; color: #666;">
+        LightVLA adaptively prunes visual tokens with the goal of optimal performance,<br>
+        improving both efficiency and accuracy simultaneously
+      </div>
+    </div> -->
+
+    <!-- Slide 4: Results Overview -->
+    <!-- <div class="slide gradient-bg">
+      <div class="section-title">📊 Experimental Results</div>
+      <div class="results-container">
+        <div class="results-highlight">
+          LightVLA achieves better performance with fewer visual tokens
+        </div>
+        <img src="static/images/visual_tokens_vs_success_rate.jpg" alt="Results" class="results-img">
+      </div>
+    </div> -->
+
+    <!-- Slide 5: Spatial Tasks Demo -->
+    <div class="slide">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Spatial Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=0--episode=20--success=True--task=pick_up_the_black_bowl_between_the_plate_and_the_ramekin_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl between the plate and the ramekin and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=1--episode=20--success=True--task=pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl next to the ramekin and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=2--episode=20--success=True--task=pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl from table center and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=3--episode=20--success=True--task=pick_up_the_black_bowl_on_the_cookie_box_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl on the cookie box and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=4--episode=20--success=True--task=pick_up_the_black_bowl_in_the_top_drawer_of_the_wooden_cabinet_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl in the top drawer of the wooden cabinet and place it on the plate</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Spatial Tasks Demo -->
+    <div class="slide">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Spatial Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=5--episode=20--success=True--task=pick_up_the_black_bowl_on_the_ramekin_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl on the ramekin and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=6--episode=20--success=True--task=pick_up_the_black_bowl_next_to_the_cookie_box_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl next to the cookie box and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=7--episode=20--success=True--task=pick_up_the_black_bowl_on_the_stove_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl on the stove and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=8--episode=20--success=True--task=pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl next to the plate and place it on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/spatial_/task=9--episode=20--success=True--task=pick_up_the_black_bowl_on_the_wooden_cabinet_and_place_it_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the black bowl on the wooden cabinet and place it on the plate</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Object Tasks Demo -->
+    <div class="slide gradient-bg">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Object Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=0--episode=20--success=True--task=pick_up_the_alphabet_soup_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the alphabet soup and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=1--episode=20--success=True--task=pick_up_the_cream_cheese_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the cream cheese and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=2--episode=20--success=True--task=pick_up_the_salad_dressing_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the salad dressing and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=3--episode=20--success=True--task=pick_up_the_bbq_sauce_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the bbq sauce and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=4--episode=20--success=True--task=pick_up_the_ketchup_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the ketchup and place it in the basket</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 6: Object Tasks Demo -->
+    <div class="slide gradient-bg">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Object Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=5--episode=20--success=True--task=pick_up_the_tomato_sauce_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the tomato sauce and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=6--episode=20--success=True--task=pick_up_the_butter_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the butter and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=7--episode=20--success=True--task=pick_up_the_milk_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the milk and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=8--episode=19--success=True--task=pick_up_the_chocolate_pudding_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the chocolate pudding and place it in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/object_/task=9--episode=20--success=True--task=pick_up_the_orange_juice_and_place_it_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the orange juice and place it in the basket</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Goal Tasks Demo -->
+    <div class="slide">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Goal Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=0--episode=20--success=True--task=open_the_middle_drawer_of_the_cabinet.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Open the middle drawer top of the cabinet</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=1--episode=20--success=True--task=put_the_bowl_on_the_stove.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the bowl on the stove</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=2--episode=20--success=True--task=put_the_wine_bottle_on_top_of_the_cabinet.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the wine bottle on top of the cabinet</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=3--episode=20--success=True--task=open_the_top_drawer_and_put_the_bowl_inside.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Open the top drawer and pput the bowl inside</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=4--episode=20--success=True--task=put_the_bowl_on_top_of_the_cabinet.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the bowl on top of the cabinet</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 7: Goal Tasks Demo -->
+    <div class="slide">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Goal Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=5--episode=20--success=True--task=push_the_plate_to_the_front_of_the_stove.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Push the plate to the front of the stove</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=6--episode=20--success=True--task=put_the_cream_cheese_in_the_bowl.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the cream cheese in the bowl</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=7--episode=20--success=True--task=turn_on_the_stove.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Turn on the stove</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=8--episode=20--success=True--task=put_the_bowl_on_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the bowl on the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/goal_/task=9--episode=20--success=True--task=put_the_wine_bottle_on_the_rack.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the wine bottle on the rack</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Long-horizon Tasks Demo -->
+    <div class="slide gradient-bg">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Long-horizon Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=0--episode=20--success=True--task=put_both_the_alphabet_soup_and_the_tomato_sauce_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put both the alphabet soup and the tomato sauce in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=1--episode=20--success=True--task=put_both_the_cream_cheese_box_and_the_butter_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put both the cream cheese box and the butter in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=2--episode=20--success=True--task=turn_on_the_stove_and_put_the_moka_pot_on_it.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Turn on the stove and put the moka pot on it</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=3--episode=20--success=True--task=put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the black bowl in the bottom drawer of the cabinet and close it</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=4--episode=20--success=True--task=put_the_white_mug_on_the_left_plate_and_put_the_yellow_and_white_mug_on_the_right_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the white mug on the left plate and put the yellow and white mug on the right plate</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 8: Long-horizon Tasks Demo -->
+    <div class="slide gradient-bg">
+      <div class="task-label">🎬 Manipulation & Token pruning Visualization: Long-horizon Tasks</div>
+      <div class="video-grid">
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=5--episode=20--success=True--task=pick_up_the_book_and_place_it_in_the_back_compartment_of_the_caddy.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Pick up the book and place it in the back compartment of the caddy</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=6--episode=20--success=True--task=put_the_white_mug_on_the_plate_and_put_the_chocolate_pudding_to_the_right_of_the_plate.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the white mug on the plate and put the chocolate pudding to the right of the plate</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=7--episode=20--success=True--task=put_both_the_alphabet_soup_and_the_cream_cheese_box_in_the_basket.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put both the alphabet soup and the cream cheese box in the basket</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=3--episode=20--success=True--task=put_the_black_bowl_in_the_bottom_drawer_of_the_cabinet_and_close_it.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put the black bowl in the bottom drawer of the cabinet and close it</p>
+        </div>
+        <div class="video-item">
+          <video controls muted loop autoplay>
+            <source src="static/videos/visualizations_480_20FPS/long_/task=8--episode=20--success=True--task=put_both_moka_pots_on_the_stove.mp4" type="video/mp4">
+          </video>
+          <p class="video-caption">Put both moka pots on the stove</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 9: Citation -->
+    <!-- <div class="slide gradient-bg">
+      <div class="section-title">📚 Citation</div>
+      <div class="bibtex-box">
+        <pre class="bibtex-code">@article{lightvla2024,
+  title={The Better You Learn, The Smarter You Prune: 
+         Towards Efficient Vision-language-action Models 
+         via Differentiable Token Pruning},
+  author={Jiang, Titong and Jiang, Xuefeng and Ma, Yuan and 
+          Wen, Xin and Li, Bailin and Zhan, Kun and 
+          Jia, Peng and Liu, Yahui and Sun, Sheng and 
+          Lang, Xianpeng},
+  journal={arXiv preprint arXiv:xxxx.xxxxx},
+  year={2024}
+}</pre>
+      </div>
+    </div> -->
+
+    <!-- Slide 10: Thank You -->
+    <!-- <div class="slide dark-bg">
+      <div class="main-title" style="color: white;">
+        Thank You! 🙏
+      </div>
+      <div class="subtitle" style="color: rgba(255,255,255,0.9); margin-top: 2rem;">
+        For more information, visit our project page
+      </div>
+      <div class="button-links">
+        <a href="https://liauto-research.github.io/LightVLA/" class="link-button">
+          🌐 Project Website
+        </a>
+        <a href="https://github.com/LiAutoAD/LightVLA" class="link-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 8px;">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg> GitHub Repository
+        </a>
+      </div>
+      <div style="margin-top: 3rem; color: rgba(255,255,255,0.7); font-size: 1.2rem;">
+        Contact: langxianpeng@lixiang.com
+      </div>
+    </div>
+
+  </div> -->
+
+  <!-- Play Controls -->
+  <div class="play-controls">
+    <button class="play-btn" id="playPauseBtn" onclick="toggleAutoplay()">
+      <span id="playIcon">▶</span>
+      <span id="playText">播放</span>
+    </button>
+    <button class="play-btn" id="restartBtn" onclick="restart()">
+      ⟲ 重新开始
+    </button>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const totalSlides = 10; // 更新为实际幻灯片数量
+    const container = document.getElementById('presentation');
+    const progressBar = document.getElementById('progressBar');
+    const pageIndicator = document.getElementById('pageIndicator');
+    const slideTimer = document.getElementById('slideTimer');
+    const autoplayIndicator = document.getElementById('autoplayIndicator');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    const playText = document.getElementById('playText');
+    
+    // 自动播放相关变量
+    let isAutoplay = false;
+    let autoplayInterval;
+    let slideInterval;
+    const SLIDE_DURATION = 5000; // 默认每张幻灯片显示5秒
+    
+    // 不同幻灯片可以有不同的显示时长（毫秒）
+    const slideDurations = {
+      0: 1000,  // 标题页6秒
+      1: 20000,  // 摘要页8秒
+      2: 20000,  // 框架图5秒
+      3: 20000,  // 结果页5秒
+      4: 20000,  // 视频演示页7秒
+      5: 20000,
+      6: 20000,
+      7: 35000, 
+      8: 35000,   
+    };
+
+    function updateSlide() {
+      // 滚动到当前幻灯片
+      container.scrollTo({
+        left: currentSlide * window.innerWidth,
+        behavior: 'smooth'
+      });
+      
+      // 更新进度条
+      progressBar.style.width = ((currentSlide + 1) / totalSlides * 100) + '%';
+      
+      // 更新页面指示器
+      pageIndicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    }
+
+    function navigate(direction) {
+      currentSlide = Math.max(0, Math.min(totalSlides - 1, currentSlide + direction));
+      updateSlide();
+      
+      // 如果在自动播放中，重置计时器
+      if (isAutoplay) {
+        resetAutoplayTimer();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      } else {
+        // 到达最后一页，循环回到第一页
+        currentSlide = 0;
+        updateSlide();
+      }
+    }
+
+    function startAutoplay() {
+      isAutoplay = true;
+      autoplayIndicator.classList.add('active');
+      playIcon.textContent = '⏸';
+      playText.textContent = '暂停';
+      
+      // 开始幻灯片计时动画
+      const duration = slideDurations[currentSlide] || SLIDE_DURATION;
+      slideTimer.style.transition = `width ${duration}ms linear`;
+      slideTimer.style.width = '100%';
+      
+      // 设置自动切换
+      autoplayInterval = setTimeout(() => {
+        nextSlide();
+        if (isAutoplay) {
+          startAutoplay(); // 递归调用以继续播放
+        }
+      }, duration);
+    }
+
+    function stopAutoplay() {
+      isAutoplay = false;
+      autoplayIndicator.classList.remove('active');
+      playIcon.textContent = '▶';
+      playText.textContent = '播放';
+      
+      // 清除计时器
+      clearTimeout(autoplayInterval);
+      
+      // 重置计时条
+      slideTimer.style.transition = 'none';
+      slideTimer.style.width = '0';
+    }
+
+    function toggleAutoplay() {
+      if (isAutoplay) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    }
+
+    function resetAutoplayTimer() {
+      if (isAutoplay) {
+        stopAutoplay();
+        setTimeout(() => startAutoplay(), 100);
+      }
+    }
+
+    function restart() {
+      stopAutoplay();
+      currentSlide = 0;
+      updateSlide();
+      setTimeout(() => startAutoplay(), 500);
+    }
+
+    // 键盘导航
+    document.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.key === 'Spacebar') {
+        e.preventDefault();
+        toggleAutoplay();
+      }
+      if (e.key === 'ArrowLeft') {
+        stopAutoplay();
+        navigate(-1);
+      }
+      if (e.key === 'ArrowRight') {
+        stopAutoplay();
+        navigate(1);
+      }
+      if (e.key === 'Home') {
+        stopAutoplay();
+        currentSlide = 0;
+        updateSlide();
+      }
+      if (e.key === 'End') {
+        stopAutoplay();
+        currentSlide = totalSlides - 1;
+        updateSlide();
+      }
+      if (e.key === 'Enter') {
+        restart();
+      }
+    });
+
+    // 触摸/滑动支持
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopAutoplay(); // 触摸时停止自动播放
+    });
+
+    container.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    });
+
+    function handleSwipe() {
+      if (touchEndX < touchStartX - 50) navigate(1); // 向左滑动
+      if (touchEndX > touchStartX + 50) navigate(-1); // 向右滑动
+    }
+
+    // 鼠标点击幻灯片暂停/播放（但不包括链接和视频）
+    container.addEventListener('click', (e) => {
+      // 检查是否点击了链接、视频或按钮
+      if (e.target.tagName !== 'A' && 
+          e.target.tagName !== 'VIDEO' && 
+          e.target.tagName !== 'BUTTON' &&
+          !e.target.closest('a') && 
+          !e.target.closest('video') &&
+          !e.target.closest('button')) {
+        toggleAutoplay();
+      }
+    });
+
+    // 隐藏键盘提示
+    setTimeout(() => {
+      document.querySelector('.keyboard-hint').style.display = 'none';
+    }, 5000);
+
+    // 初始化
+    updateSlide();
+    
+    // 页面加载后自动开始播放
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        startAutoplay();
+      }, 1000); // 延迟1秒后开始自动播放
+    });
+
+    // 处理窗口大小调整
+    window.addEventListener('resize', () => {
+      container.scrollTo({
+        left: currentSlide * window.innerWidth,
+        behavior: 'auto'
+      });
+    });
+
+    // 页面失去焦点时暂停
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && isAutoplay) {
+        stopAutoplay();
+      }
+    });
+
+    // 监听滚动事件（用于手动滚动时同步）
+    let scrollTimeout;
+    container.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        const newSlide = Math.round(container.scrollLeft / window.innerWidth);
+        if (newSlide !== currentSlide) {
+          currentSlide = newSlide;
+          updateSlide();
+          // 如果正在自动播放，重置计时器
+          if (isAutoplay) {
+            resetAutoplayTimer();
+          }
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
