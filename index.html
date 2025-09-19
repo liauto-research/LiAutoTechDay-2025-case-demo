@@ -970,14 +970,14 @@
     // 不同幻灯片可以有不同的显示时长（毫秒）
     const slideDurations = {
       0: 1000,  // 标题页6秒
-      1: 20000,  // 摘要页8秒
-      2: 20000,  // 框架图5秒
-      3: 20000,  // 结果页5秒
-      4: 20000,  // 视频演示页7秒
-      5: 20000,
-      6: 20000,
-      7: 35000, 
-      8: 35000,   
+      1: 10000,  // 摘要页8秒
+      2: 10000,  // 框架图5秒
+      3: 10000,  // 结果页5秒
+      4: 10000,  // 视频演示页7秒
+      5: 10000,
+      6: 10000,
+      7: 15000, 
+      8: 15000,   
     };
 
     function updateSlide() {
@@ -1177,6 +1177,13 @@
           }
         }
       }, 100);
+    });
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".video-grid video").forEach(video => {
+        video.playbackRate = 2.5; // 设置倍速
+      });
     });
   </script>
 </body>
